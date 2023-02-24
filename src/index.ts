@@ -1,0 +1,1 @@
+export { MobxModel } from "./MobxModel";

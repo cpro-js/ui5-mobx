@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": ["node"],
+    "strict": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "useDefineForClassFields": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": ["node_modules", "lib", "**/__tests__", "**/__mocks__"]
+}
