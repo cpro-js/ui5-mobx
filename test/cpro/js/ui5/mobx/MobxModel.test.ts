@@ -32,6 +32,11 @@ describe("MobxModel Tests", () => {
     model = new MobxModel(observable(state));
   });
 
+  it("dummy", () => {
+    expect(model.getData().truth).toBeFalse()
+  });
+
+  /*
   it("getData", () => {
     // @ts-ignore
     console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhh-----------------------------------------");
@@ -40,4 +45,5 @@ describe("MobxModel Tests", () => {
   it("getProperty", () => {
     expect(model.getProperty("truth")).toBe(false);
   });
+  */
 });

@@ -7,6 +7,6 @@
       "cpro/js/ui5/mobx/*": ["./src/cpro/js/ui5/mobx/*"]
     }
   },
-  "include": ["./src", ".types"],
+  "include": ["./src", "./test", ".types"],
   "exclude": ["node_modules", "lib"]
 }
