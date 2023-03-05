@@ -8,11 +8,15 @@ module.exports = function (config) {
       mode: "script",
       config: {
         async: true,
-        // resourceRoots: {
-        //   "cpro.js.ui5.mobx": "./base/webapp",
-        // },
+        resourceRoots: {
+          // map namespaces to local source paths in relative to "./base/"
+          "cpro.js.ui5.mobx": "./base/src/cpro/js/ui5/mobx/",
+          "cpro.js.ui5.mobx.test": "./base/test/cpro/js/ui5/mobx/",
+        },
       },
-      tests: ["dist/test-resources/**/*.js"],
+      tests: [
+        "cpro/js/ui5/mobx/test/MobxModel.test"
+      ],
     },
     browsers: ["Chrome"],
     // files: [
