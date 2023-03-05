@@ -1,5 +1,6 @@
 import { MobxModel } from "cpro/js/ui5/mobx/MobxModel";
 import { observable } from "mobx";
+import deepClone from "sap/base/util/deepClone";
 
 const TEST_DATA = {
   truth: false,
@@ -23,27 +24,44 @@ const TEST_DATA = {
 
 type TestState = typeof TEST_DATA;
 
+function createTestData(): TestState {
+  return deepClone(TEST_DATA);
+}
+
 describe("MobxModel Tests", () => {
   let state: TestState;
-  let model: MobxModel<any>;
+  let model: MobxModel<TestState>;
 
   beforeEach(() => {
-    state = { ...TEST_DATA };
-    model = new MobxModel(observable(state));
+    state = observable(createTestData());
+    model = new MobxModel(state);
   });
 
-  it("dummy", () => {
-    expect(model.getData().truth).toBeFalse()
+  it("getData", () => {
+    expect(model.getData()).toBeTruthy();
+    expect(model.getData()).toEqual(state);
+
+    // one-time reassurance, that data matches
+    expect(model.getData()).toEqual(TEST_DATA);
+  });
+
+  it("setData", () => {
+    const newData: TestState = {
+      truth: true,
+      text: "ho",
+      list: [],
+      complex: { a: "z", b: "y" },
+      listOfComplex: [],
+    };
+    model.setData(observable(newData));
+
+    expect(model.getData()).toEqual(newData);
+    expect(model.getData()).not.toEqual(state);
   });
 
   /*
-  it("getData", () => {
-    // @ts-ignore
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhh-----------------------------------------");
-    expect(model.getData()).toBe(TEST_DATA);
-  });
-  it("getProperty", () => {
-    expect(model.getProperty("truth")).toBe(false);
-  });
-  */
+ it("getProperty", () => {
+   expect(model.getProperty("truth")).toBe(false);
+ });
+ */
 });
