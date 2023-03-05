@@ -14,7 +14,6 @@
     "check-circular-deps": "madge ./src --extensions ts --circular",
     "compile": "tsc",
     "prepare": "husky install",
-    "prepublish": "yarn build",
     "start": "ui5 serve",
     "test": "karma start --singleRun",
     "testing": "karma start"
@@ -38,6 +37,7 @@
     "@openui5/ts-types-esm": "1.111.0",
     "@types/jasmine": "^4.3.1",
     "@types/jest": "^29.4.0",
+    "@types/karma": "^6.3.3",
     "@types/karma-jasmine": "^4.0.2",
     "@types/node": "^18.14.6",
     "@ui5/cli": "^3.0.3",
