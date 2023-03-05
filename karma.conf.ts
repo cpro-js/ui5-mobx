@@ -1,9 +1,22 @@
-// karma-ui5 usage: https://github.com/SAP/karma-ui5
-module.exports = function (config) {
+import { Config, ConfigOptions } from "karma";
+
+interface UI5ConfigOptions {
+  mode?: "script" | "html";
+  config?: { async?: boolean; resourceRoots?: Record<string, string> };
+  tests?: Array<string>;
+}
+
+interface ConfigWithUi5 extends Omit<Config, "set"> {
+  set: (config: ConfigOptions & { ui5: UI5ConfigOptions }) => void;
+  singleRun: boolean;
+}
+
+export default function (config: ConfigWithUi5) {
   const CI_MODE = !!config.singleRun;
 
   config.set({
     frameworks: ["ui5", "jasmine"],
+    // karma-ui5 usage: https://github.com/SAP/karma-ui5
     ui5: {
       mode: "script",
       config: {
@@ -14,18 +27,15 @@ module.exports = function (config) {
           "cpro.js.ui5.mobx.test": "./base/test/cpro/js/ui5/mobx/",
         },
       },
-      tests: [
-        "cpro/js/ui5/mobx/test/MobxModel.test"
-      ],
+      tests: ["cpro/js/ui5/mobx/test/MobxModel.test"],
     },
-    browsers: ["Chrome"],
-    // files: [
-    //   { pattern: "src/**/*.ts", included: false, served: true, watched: true, type: "ts" },
-    //   { pattern: "test/**/*.test.ts", included: true, served: true, watched: true, type: "ts" },
-    // ],
+    browsers: [CI_MODE ? "ChromeHeadless" : "Chrome"],
+    browserConsoleLogOptions: {
+      level: "error",
+    },
     // make Karma work with pnpm
     plugins: Object.keys(require("./package.json").devDependencies).flatMap((packageName) =>
       packageName.startsWith("karma-") && !packageName.startsWith("karma-cli") ? [require(packageName)] : []
     ),
   });
-};
+}
