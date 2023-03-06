@@ -46,11 +46,11 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     }, this.observable);
   }
 
-  public getProperty(path: keyof T & string, context?: Context): any {
+  public getProperty(path: string, context?: Context): any {
     return this.getNode(path, context);
   }
 
-  public setProperty(path: string, value: any, context: Context) {
+  public setProperty(path: string, value: any, context?: Context) {
     // @ts-expect-error: resolve method of model class is not included in typings
     const resolvedPath = this.resolve(path, context);
 
@@ -69,9 +69,8 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     const lastSlash = resolvedPath.lastIndexOf("/");
     const property = resolvedPath.substring(lastSlash + 1);
 
-    // TODO: check if context param mus be passed
     // TODO: refactor
-    const node = lastSlash === 0 ? this.observable : this.getNode(resolvedPath.substring(0, lastSlash));
+    const node = lastSlash === 0 ? this.observable : this.getNode(resolvedPath.substring(0, lastSlash), context);
     if (node) {
       node[property] = value;
       return true;
@@ -93,7 +92,7 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
   //   return super.bindList(sPath, oContext, aSorters, aFilters, mParameters);
   // }
 
-  bindProperty(path: string, context?: Context, mParameters?: object): PropertyBinding {
+  public bindProperty(path: string, context?: Context, mParameters?: object): PropertyBinding {
     if (!path || !context) {
       throw new Error(`Path [${path}] or context is null [${typeof context}]`);
     }

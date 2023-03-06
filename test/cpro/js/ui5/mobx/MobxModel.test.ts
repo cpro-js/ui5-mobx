@@ -1,6 +1,7 @@
 import { MobxModel } from "cpro/js/ui5/mobx/MobxModel";
 import { observable } from "mobx";
 import deepClone from "sap/base/util/deepClone";
+import Context from "sap/ui/model/Context";
 
 const TEST_DATA = {
   truth: false,
@@ -59,9 +60,39 @@ describe("MobxModel Tests", () => {
     expect(model.getData()).not.toEqual(state);
   });
 
-  /*
- it("getProperty", () => {
-   expect(model.getProperty("truth")).toBe(false);
- });
- */
+  it("getProperty", () => {
+    expect(model.getProperty("/text")).toBe(state.text);
+    expect(model.getProperty("/truth")).toBe(state.truth);
+    expect(model.getProperty("/list")).toEqual(state.list);
+    expect(model.getProperty("/complex")).toEqual(state.complex);
+    expect(model.getProperty("/complex/a")).toBe(state.complex.a);
+    expect(model.getProperty("/listOfComplex")).toEqual(state.listOfComplex);
+    expect(model.getProperty("/xxxNotFoundxxx")).toBeUndefined();
+  });
+
+  it("getProperty with context", () => {
+    const ctx = new Context(model, "/complex");
+    expect(model.getProperty("a", ctx)).toBe(state.complex.a);
+  });
+
+  it("setProperty", () => {
+    // given: new prop
+    const newText = "Merry Christmas 1999!";
+
+    // when: set new prop value
+    let result = model.setProperty("/text", newText);
+
+    // then
+    expect(result).toBeTruthy();
+    expect(model.getProperty("/text")).toBe(newText);
+  });
+
+  it("setProperty with context", () => {
+    const newValue = "xxXXxx";
+    const ctx = new Context(model, "/complex");
+
+    let result = model.setProperty("a", newValue, ctx);
+    expect(result).toBeTrue();
+    expect(model.getProperty("a", ctx)).toBe(newValue);
+  });
 });
