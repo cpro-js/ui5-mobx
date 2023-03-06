@@ -88,10 +88,14 @@ describe("MobxModel Tests", () => {
   });
 
   it("setProperty with context", () => {
+    // given
     const newValue = "xxXXxx";
     const ctx = new Context(model, "/complex");
 
+    // when
     let result = model.setProperty("a", newValue, ctx);
+
+    // then
     expect(result).toBeTrue();
     expect(model.getProperty("a", ctx)).toBe(newValue);
   });

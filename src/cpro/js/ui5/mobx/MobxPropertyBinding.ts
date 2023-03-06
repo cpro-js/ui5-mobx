@@ -11,11 +11,11 @@ import { IMobxModel } from "./IMobxModel";
 export class MobxPropertyBinding extends PropertyBinding {
   private disposer: () => void;
 
-  constructor(private mobxModel: IMobxModel, private path: string, private context: Context, params?: object) {
-    super(mobxModel, path, context, params);
+  constructor(private mobxModel: IMobxModel, private path: string, private context?: Context, params?: object) {
+    super(mobxModel, path, context!, params);
 
     this.disposer = reaction(mobxModel.getProperty.bind(this, path, context), () => {
-      this.fireEvent("change", { reason: ChangeReason.Change });
+      this.fireEvent("change", {reason: ChangeReason.Change});
     });
   }
 

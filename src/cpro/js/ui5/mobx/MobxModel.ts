@@ -1,5 +1,6 @@
 import { isObservable } from "mobx";
 import Context from "sap/ui/model/Context";
+import ContextBinding from "sap/ui/model/ContextBinding";
 import Model from "sap/ui/model/Model";
 import PropertyBinding from "sap/ui/model/PropertyBinding";
 
@@ -14,6 +15,18 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     super();
 
     this.setData(observable);
+  }
+
+  // workaround for missing typings of Model class
+  private resolve(path: string, ctx?: Context): string | undefined {
+    //@ts-expect-error: resolve method of Model class is not included in typings
+    return super.resolve(path, ctx);
+  }
+
+  // workaround for missing typings of Model class
+  private getContext(path: string): Context {
+    //@ts-expect-error: getContext method of Model class is not included in typings
+    return super.getContext(path);
   }
 
   public getData() {
@@ -33,7 +46,6 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
   }
 
   private getNode(path: string, context?: Context) {
-    // @ts-expect-error: resolve method of model class is not included in typings
     const resolvedPath = this.resolve(path, context);
     if (!resolvedPath) {
       return undefined;
@@ -46,12 +58,11 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     }, this.observable);
   }
 
-  public getProperty(path: string, context?: Context): any {
+  public getProperty = (path: string, context?: Context): any => {
     return this.getNode(path, context);
-  }
+  };
 
   public setProperty(path: string, value: any, context?: Context) {
-    // @ts-expect-error: resolve method of model class is not included in typings
     const resolvedPath = this.resolve(path, context);
 
     if (!resolvedPath) {
@@ -77,10 +88,54 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     }
     return false;
   }
-  //
-  // bindContext(sPath: string, oContext?: Context, mParameters?: object, oEvents?: object): ContextBinding {
-  //   return super.bindContext(sPath, oContext, mParameters, oEvents);
-  // }
+
+  public createBindingContext(
+    path: string,
+    ctx?: Context,
+    parameters?: object,
+    callback?: Function,
+    reload?: boolean
+  ): Context | undefined {
+    // optional parameter handling
+    if (typeof ctx === "function") {
+      callback = ctx;
+      ctx = undefined;
+    }
+    if (typeof parameters === "function") {
+      callback = parameters;
+      parameters = undefined;
+    }
+    // resolve path and create context
+    const ctxPath = this.resolve(path, ctx);
+    let newCtx = ctxPath === undefined ? null : this.getContext(ctxPath || "/");
+    if (!newCtx) {
+      newCtx = null;
+    }
+    if (callback) {
+      callback(newCtx);
+    }
+
+    // @ts-ignore: this is the implementation of sap.ui.model.ClientModel underlying the JSONModel
+    return newCtx;
+  }
+
+  /**
+   * Noop. Nothing to do.
+   * @param ctx
+   */
+  public destroyBindingContext(ctx: Context) {}
+
+  public bindContext(path: string, ctx?: Context, parameters?: object, events?: object): ContextBinding {
+    throw new Error("Not implemented yet!");
+  }
+
+  public bindProperty(path: string, ctx?: Context, parameters?: object): PropertyBinding {
+    if (!path) {
+      throw new Error(`Path [${path}] is required!`);
+    }
+    return new MobxPropertyBinding(this, path, ctx!, parameters);
+  }
+
   //
   // bindList(
   //   sPath: string,
@@ -92,12 +147,6 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
   //   return super.bindList(sPath, oContext, aSorters, aFilters, mParameters);
   // }
 
-  public bindProperty(path: string, context?: Context, mParameters?: object): PropertyBinding {
-    if (!path || !context) {
-      throw new Error(`Path [${path}] or context is null [${typeof context}]`);
-    }
-    return new MobxPropertyBinding(this, path, context, mParameters);
-  }
   /*
     bindTree(
       sPath: string,
