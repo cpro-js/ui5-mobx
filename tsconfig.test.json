@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.settings.json",
-  "compilerOptions": {
-    "types": ["reflect-metadata", "jest"],
-    "outDir": "./lib"
-  },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules", "lib", "build"]
-}
