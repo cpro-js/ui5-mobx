@@ -99,4 +99,30 @@ describe("MobxModel Tests", () => {
     expect(result).toBeTrue();
     expect(model.getProperty("a", ctx)).toBe(newValue);
   });
+
+  it("propertyBinding: basics", () => {
+    const binding = model.bindProperty("/text");
+
+    expect(binding.getValue()).toBe(state.text);
+  });
+
+  it("propertyBinding: changing state changes binding", () => {
+    const newValue = "one to bind them all";
+    const binding = model.bindProperty("/text");
+
+    state.text = newValue;
+
+    // TODO: spy with sinon on change event
+
+    expect(binding.getValue()).toBe(newValue);
+  });
+
+  it("propertyBinding: changing binding changes state", () => {
+    const newValue = "two to unbind";
+    const binding = model.bindProperty("/text");
+
+    binding.setValue(newValue);
+
+    expect(state.text).toBe(newValue);
+  });
 });

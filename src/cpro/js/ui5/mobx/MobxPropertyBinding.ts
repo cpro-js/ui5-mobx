@@ -15,7 +15,7 @@ export class MobxPropertyBinding extends PropertyBinding {
     super(mobxModel, path, context!, params);
 
     this.disposer = reaction(mobxModel.getProperty.bind(this, path, context), () => {
-      this.fireEvent("change", {reason: ChangeReason.Change});
+      this.fireEvent("change", { reason: ChangeReason.Change });
     });
   }
 
