@@ -15,7 +15,7 @@ export default function (config: ConfigWithUi5) {
   const CI_MODE = !!config.singleRun;
 
   config.set({
-    frameworks: ["ui5", "jasmine"],
+    frameworks: ["ui5", "sinon", "jasmine"],
     // karma-ui5 usage: https://github.com/SAP/karma-ui5
     ui5: {
       mode: "script",
