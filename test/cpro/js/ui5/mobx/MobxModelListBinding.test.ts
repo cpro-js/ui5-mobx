@@ -31,6 +31,10 @@ describe("MobxModel Tests: List Binding", () => {
     expect(binding.getModel()).toBe(model);
   });
 
+  it("fail without path", () => {
+    expect(() => model.bindList("")).toThrowError("Path is required! Provided value: ");
+  });
+
   it("changing state changes binding", () => {
     state.listOfComplex = NEW_VALUE;
 

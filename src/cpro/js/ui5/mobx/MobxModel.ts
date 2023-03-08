@@ -147,7 +147,7 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
 
   public bindProperty(path: string, ctx?: Context, parameters?: object): MobxPropertyBinding {
     if (!path) {
-      throw new Error(`Path [${path}] is required!`);
+      throw new Error(`Path is required! Provided value: ${path}`);
     }
     return new MobxPropertyBinding(this, path, ctx, parameters);
   }
@@ -159,6 +159,9 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     filters?: Filter | Filter[],
     parameters?: object
   ): MobxListBinding {
+    if (!path) {
+      throw new Error(`Path is required! Provided value: ${path}`);
+    }
     return new MobxListBinding(this, path, ctx, sorters, filters, parameters);
   }
 

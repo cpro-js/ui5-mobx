@@ -21,6 +21,10 @@ describe("MobxModel Tests: Property Binding", () => {
     expect(binding.getValue()).toBe(state.text);
   });
 
+  it("fail without path", () => {
+    expect(() => model.bindProperty("")).toThrowError("Path is required! Provided value: ");
+  });
+
   it("changing state changes binding", () => {
     state.text = NEW_VALUE;
 
