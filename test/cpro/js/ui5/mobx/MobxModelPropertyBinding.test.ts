@@ -1,5 +1,6 @@
 import { MobxModel } from "cpro/js/ui5/mobx/MobxModel";
 import { observable } from "mobx";
+import ChangeReason from "sap/ui/model/ChangeReason";
 import PropertyBinding from "sap/ui/model/PropertyBinding";
 
 import { TestState, createTestData } from "./test-infra/TestHelper";
@@ -26,11 +27,20 @@ describe("MobxModel Tests: Property Binding", () => {
   });
 
   it("changing state changes binding", () => {
+    // given: spy to check for change event
+    // @ts-ignore: UMD import
+    const spy = sinon.createSandbox().spy(binding, "fireEvent");
+
+    // when changing the value
     state.text = NEW_VALUE;
 
-    // TODO: spy with sinon on change event
-
+    // then value of binding changed
     expect(binding.getValue()).toBe(NEW_VALUE);
+    // then change event has been fired
+    expect(spy.calledOnce).toBeTrue();
+    expect(spy.args[0].length).toBe(2);
+    expect(spy.args[0][0]).toBe("change");
+    expect(spy.args[0][1]).toEqual({ reason: ChangeReason.Change });
   });
 
   it("propertyBinding: changing binding changes state", () => {
