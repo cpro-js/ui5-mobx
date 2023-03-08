@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDirs": ["./src", "./test/cpro/js/ui5/mobx/test-infra"],
     "outDir": "./lib",
     "paths": {
       "cpro/js/ui5/mobx/*": ["./src/cpro/js/ui5/mobx/*"]

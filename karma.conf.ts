@@ -27,12 +27,17 @@ export default function (config: ConfigWithUi5) {
           "cpro.js.ui5.mobx.test": "./base/test/cpro/js/ui5/mobx/",
         },
       },
-      tests: ["cpro/js/ui5/mobx/test/MobxModel.test"],
+      tests: ["cpro/js/ui5/mobx/test/MobxModelBasics.test", "cpro/js/ui5/mobx/test/MobxModelPropertyBinding.test"],
     },
+    client: {
+      clearContext: true,
+    },
+    // logLevel: "debug",
     browsers: [CI_MODE ? "ChromeHeadless" : "Chrome"],
     browserConsoleLogOptions: {
       level: "error",
     },
+    reporters: ["spec"],
     // make Karma work with pnpm
     plugins: Object.keys(require("./package.json").devDependencies).flatMap((packageName) =>
       packageName.startsWith("karma-") && !packageName.startsWith("karma-cli") ? [require(packageName)] : []

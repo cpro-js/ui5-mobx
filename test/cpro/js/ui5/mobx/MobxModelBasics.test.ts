@@ -3,31 +3,7 @@ import { observable } from "mobx";
 import deepClone from "sap/base/util/deepClone";
 import Context from "sap/ui/model/Context";
 
-const TEST_DATA = {
-  truth: false,
-  text: "test",
-  list: [1, 2, 3],
-  complex: {
-    a: "a",
-    b: "b",
-  },
-  listOfComplex: [
-    {
-      a: "a",
-      b: "b",
-    },
-    {
-      c: "c",
-      d: "d",
-    },
-  ],
-};
-
-type TestState = typeof TEST_DATA;
-
-function createTestData(): TestState {
-  return deepClone(TEST_DATA);
-}
+import { TestState, createTestData } from "./test-infra/TestHelper";
 
 describe("MobxModel Tests", () => {
   let state: TestState;
@@ -38,12 +14,16 @@ describe("MobxModel Tests", () => {
     model = new MobxModel(state);
   });
 
+  it("smoke test", () => {
+    expect(model.getSizeLimit()).toBe(100);
+  });
+
   it("getData", () => {
     expect(model.getData()).toBeTruthy();
     expect(model.getData()).toEqual(state);
 
     // one-time reassurance, that data matches
-    expect(model.getData()).toEqual(TEST_DATA);
+    expect(model.getData()).toEqual(createTestData());
   });
 
   it("setData", () => {
@@ -98,31 +78,5 @@ describe("MobxModel Tests", () => {
     // then
     expect(result).toBeTrue();
     expect(model.getProperty("a", ctx)).toBe(newValue);
-  });
-
-  it("propertyBinding: basics", () => {
-    const binding = model.bindProperty("/text");
-
-    expect(binding.getValue()).toBe(state.text);
-  });
-
-  it("propertyBinding: changing state changes binding", () => {
-    const newValue = "one to bind them all";
-    const binding = model.bindProperty("/text");
-
-    state.text = newValue;
-
-    // TODO: spy with sinon on change event
-
-    expect(binding.getValue()).toBe(newValue);
-  });
-
-  it("propertyBinding: changing binding changes state", () => {
-    const newValue = "two to unbind";
-    const binding = model.bindProperty("/text");
-
-    binding.setValue(newValue);
-
-    expect(state.text).toBe(newValue);
   });
 });
