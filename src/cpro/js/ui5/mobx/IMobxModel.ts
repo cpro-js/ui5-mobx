@@ -8,4 +8,8 @@ export interface IMobxModel<T extends object = any> extends Model {
   getProperty(path: string, context?: Context): any;
 
   setProperty(path: string, value: any, context?: Context): boolean;
+
+  getContext(path: string): Context;
+
+  getSizeLimit(): number;
 }

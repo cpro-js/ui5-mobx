@@ -27,7 +27,11 @@ export default function (config: ConfigWithUi5) {
           "cpro.js.ui5.mobx.test": "./base/test/cpro/js/ui5/mobx/",
         },
       },
-      tests: ["cpro/js/ui5/mobx/test/MobxModelBasics.test", "cpro/js/ui5/mobx/test/MobxModelPropertyBinding.test"],
+      tests: [
+        "cpro/js/ui5/mobx/test/MobxModelBasics.test",
+        "cpro/js/ui5/mobx/test/MobxModelPropertyBinding.test",
+        "cpro/js/ui5/mobx/test/MobxModelListBinding.test",
+      ],
     },
     client: {
       clearContext: true,

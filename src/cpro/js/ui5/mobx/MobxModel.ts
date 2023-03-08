@@ -1,8 +1,10 @@
+import { MobxListBinding } from "cpro/js/ui5/mobx/MobxListBinding";
 import { isObservable } from "mobx";
 import Context from "sap/ui/model/Context";
 import ContextBinding from "sap/ui/model/ContextBinding";
+import Filter from "sap/ui/model/Filter";
 import Model from "sap/ui/model/Model";
-import PropertyBinding from "sap/ui/model/PropertyBinding";
+import Sorter from "sap/ui/model/Sorter";
 
 import { IMobxModel } from "./IMobxModel";
 import { MobxPropertyBinding } from "./MobxPropertyBinding";
@@ -24,9 +26,14 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
   }
 
   // workaround for missing typings of Model class
-  private getContext(path: string): Context {
+  public getContext(path: string): Context {
     //@ts-expect-error: getContext method of Model class is not included in typings
     return super.getContext(path);
+  }
+
+  public getSizeLimit(): number {
+    //@ts-expect-error: no typing available
+    return this.iSizeLimit;
   }
 
   public getData() {
@@ -89,6 +96,16 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     return false;
   }
 
+  /**
+   * Follows the implementation of sap.ui.model.ClientModel which is used by
+   * the JSONModel.
+   *
+   * @param path
+   * @param ctx
+   * @param parameters
+   * @param callback
+   * @param reload
+   */
   public createBindingContext(
     path: string,
     ctx?: Context,
@@ -103,7 +120,6 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     }
     if (typeof parameters === "function") {
       callback = parameters;
-      parameters = undefined;
     }
     // resolve path and create context
     const ctxPath = this.resolve(path, ctx);
@@ -115,7 +131,7 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
       callback(newCtx);
     }
 
-    // @ts-ignore: this is the implementation of sap.ui.model.ClientModel underlying the JSONModel
+    // @ts-ignore: actually we might return null instead of undefined
     return newCtx;
   }
 
@@ -129,23 +145,22 @@ export class MobxModel<T extends object> extends Model implements IMobxModel<T> 
     throw new Error("Not implemented yet!");
   }
 
-  public bindProperty(path: string, ctx?: Context, parameters?: object): PropertyBinding {
+  public bindProperty(path: string, ctx?: Context, parameters?: object): MobxPropertyBinding {
     if (!path) {
       throw new Error(`Path [${path}] is required!`);
     }
-    return new MobxPropertyBinding(this, path, ctx!, parameters);
+    return new MobxPropertyBinding(this, path, ctx, parameters);
   }
 
-  //
-  // bindList(
-  //   sPath: string,
-  //   oContext?: Context,
-  //   aSorters?: Sorter | Sorter[],
-  //   aFilters?: Filter | Filter[],
-  //   mParameters?: object
-  // ): ListBinding {
-  //   return super.bindList(sPath, oContext, aSorters, aFilters, mParameters);
-  // }
+  public bindList(
+    path: string,
+    ctx?: Context,
+    sorters?: Sorter | Sorter[],
+    filters?: Filter | Filter[],
+    parameters?: object
+  ): MobxListBinding {
+    return new MobxListBinding(this, path, ctx, sorters, filters, parameters);
+  }
 
   /*
     bindTree(
