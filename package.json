@@ -8,9 +8,9 @@
   "license": "MIT",
   "repository": "git@github.com:texttechne/ui5-mobx.git",
   "author": "texttechne",
-  "main": "lib/index.js",
+  "main": "dist/resources/index.js",
   "scripts": {
-    "build": "ui5 build --clean-dest",
+    "build": "ui5 build --clean-dest && tsc --project tsconfig.build.json",
     "check-circular-deps": "madge ./src --extensions ts --circular",
     "compile": "tsc",
     "prepare": "husky install",
@@ -21,6 +21,7 @@
   "files": [
     "*.md",
     "bin",
+    "dist",
     "lib",
     "LICENSE"
   ],
@@ -30,8 +31,8 @@
     "typescript",
     "ts"
   ],
-  "dependencies": {
-    "mobx": "^6.8.0"
+  "peerDependencies": {
+    "mobx": ">6.0.0"
   },
   "devDependencies": {
     "@openui5/ts-types-esm": "1.111.0",
@@ -54,6 +55,7 @@
     "karma-spec-reporter": "^0.0.36",
     "karma-ui5": "^3.0.2",
     "madge": "^6.0.0",
+    "mobx": "^6.8.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
     "prettier-plugin-import-sort": "^0.0.7",
@@ -67,7 +69,7 @@
     "ui5-tooling-modules": "^0.7.10",
     "ui5-tooling-transpile": "^0.3.7"
   },
-  "types": "./lib/index.d.ts",
+  "types": "./dist/resources/index.d.ts",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
