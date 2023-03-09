@@ -1,11 +1,10 @@
+import { MobxModelType } from "cpro/js/ui5/mobx/MobxModel";
 import { reaction } from "mobx";
 import ChangeReason from "sap/ui/model/ChangeReason";
 import Context from "sap/ui/model/Context";
 import Filter from "sap/ui/model/Filter";
 import ListBinding from "sap/ui/model/ListBinding";
 import Sorter from "sap/ui/model/Sorter";
-
-import { IMobxModel } from "./IMobxModel";
 
 /**
  * @namespace cpro.js.ui5.mobx
@@ -14,7 +13,7 @@ export class MobxListBinding extends ListBinding {
   private disposer: () => void;
 
   constructor(
-    private mobxModel: IMobxModel,
+    private mobxModel: MobxModelType,
     private path: string,
     private context?: Context,
     sorters?: Sorter | Sorter[],

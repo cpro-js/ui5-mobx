@@ -1,9 +1,8 @@
+import { MobxModelType } from "cpro/js/ui5/mobx/MobxModel";
 import { reaction } from "mobx";
 import ChangeReason from "sap/ui/model/ChangeReason";
 import Context from "sap/ui/model/Context";
 import PropertyBinding from "sap/ui/model/PropertyBinding";
-
-import { IMobxModel } from "./IMobxModel";
 
 /**
  * @namespace cpro.js.ui5.mobx
@@ -11,7 +10,7 @@ import { IMobxModel } from "./IMobxModel";
 export class MobxPropertyBinding extends PropertyBinding {
   private disposer: () => void;
 
-  constructor(private mobxModel: IMobxModel, private path: string, private context?: Context, params?: object) {
+  constructor(private mobxModel: MobxModelType, private path: string, private context?: Context, params?: object) {
     super(mobxModel, path, context!, params);
 
     this.disposer = reaction(mobxModel.getProperty.bind(this, path, context), () => {

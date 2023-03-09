@@ -16,7 +16,7 @@ sap.ui.getCore().initLibrary({
   // types: [
   //   "com.myorg.myUI5Library.ExampleColor"
   // ],
-  interfaces: ["cpro.js.ui5.mobx.IMobxModel"],
+  // interfaces: ["cpro.js.ui5.mobx.IMobxModel"],
   elements: ["cpro.js.ui5.mobx.MobxModel", "cpro.js.ui5.mobx.MobxPropertyBinding"],
   noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
 });

@@ -33,9 +33,6 @@ export default function (config: ConfigWithUi5) {
         "cpro/js/ui5/mobx/test/MobxModelListBinding.test",
       ],
     },
-    client: {
-      clearContext: true,
-    },
     // logLevel: "debug",
     browsers: [CI_MODE ? "ChromeHeadless" : "Chrome"],
     browserConsoleLogOptions: {

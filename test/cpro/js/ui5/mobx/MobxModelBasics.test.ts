@@ -1,6 +1,5 @@
 import { MobxModel } from "cpro/js/ui5/mobx/MobxModel";
 import { observable } from "mobx";
-import deepClone from "sap/base/util/deepClone";
 import Context from "sap/ui/model/Context";
 
 import { TestState, createTestData } from "./test-infra/TestHelper";

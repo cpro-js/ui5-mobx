@@ -6,13 +6,25 @@ import Filter from "sap/ui/model/Filter";
 import Model from "sap/ui/model/Model";
 import Sorter from "sap/ui/model/Sorter";
 
-import { IMobxModel } from "./IMobxModel";
 import { MobxPropertyBinding } from "./MobxPropertyBinding";
+
+export interface MobxModelType<T extends object = any> extends Model {
+  getData: () => T;
+  setData: (model: T) => void;
+
+  getProperty(path: string, context?: Context): any;
+
+  setProperty(path: string, value: any, context?: Context): boolean;
+
+  getContext(path: string): Context;
+
+  getSizeLimit(): number;
+}
 
 /**
  * @namespace cpro.js.ui5.mobx
  */
-export class MobxModel<T extends object> extends Model implements IMobxModel<T> {
+export class MobxModel<T extends object> extends Model implements MobxModelType<T> {
   constructor(private observable: T) {
     super();
 
