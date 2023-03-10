@@ -1,3 +1,4 @@
+import { MobxContextBinding } from "cpro/js/ui5/mobx/MobxContextBinding";
 import { MobxListBinding } from "cpro/js/ui5/mobx/MobxListBinding";
 import { isObservable } from "mobx";
 import Context from "sap/ui/model/Context";
@@ -153,8 +154,11 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
    */
   public destroyBindingContext(ctx: Context) {}
 
-  public bindContext(path: string, ctx?: Context, parameters?: object, events?: object): ContextBinding {
-    throw new Error("Not implemented yet!");
+  public bindContext(path: string, ctx: Context, parameters?: object, events?: object): ContextBinding {
+    if (!path) {
+      throw new Error(`Path is required! Provided value: ${path}`);
+    }
+    return new MobxContextBinding(this, path, ctx, parameters, events);
   }
 
   public bindProperty(path: string, ctx?: Context, parameters?: object): MobxPropertyBinding {
