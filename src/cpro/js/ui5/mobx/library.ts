@@ -13,12 +13,7 @@ sap.ui.getCore().initLibrary({
     // keep in sync with the ui5.yaml and .library files
     "sap.ui.core",
   ],
-  // types: [
-  //   "com.myorg.myUI5Library.ExampleColor"
-  // ],
-  // interfaces: ["cpro.js.ui5.mobx.IMobxModel"],
-  elements: ["cpro.js.ui5.mobx.MobxModel", "cpro.js.ui5.mobx.MobxPropertyBinding"],
-  noLibraryCSS: false, // if no CSS is provided, you can disable the library.css load here
+  noLibraryCSS: true, // if no CSS is provided, you can disable the library.css load here
 });
 
 // get the library object from global object space because all enums must be attached to it to be usable as UI5 types

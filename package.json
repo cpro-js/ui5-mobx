@@ -20,9 +20,9 @@
   },
   "files": [
     "*.md",
-    "bin",
     "dist",
-    "lib",
+    "src",
+    "ui5.yaml",
     "LICENSE"
   ],
   "keywords": [
