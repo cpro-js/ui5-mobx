@@ -9,11 +9,21 @@ export class MobxContextBinding extends ContextBinding {
   constructor(model: MobxModelType, path: string, ctx: Context, parameters?: object, events?: object) {
     super(model, path, ctx, parameters, events);
 
-    model.createBindingContext(path, ctx, parameters, (context: Context) => {
+    model.createBindingContext(this.path, this.context, parameters, (context: Context) => {
       // @ts-ignore: not typed
       this.bInitial = false;
       // @ts-ignore: not typed
       this.oElementContext = context;
     });
+  }
+
+  private get path(): string {
+    // @ts-ignore
+    return this.sPath;
+  }
+
+  private get context(): Context | undefined {
+    // @ts-ignore
+    return this.oContext;
   }
 }

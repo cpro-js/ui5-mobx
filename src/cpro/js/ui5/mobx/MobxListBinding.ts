@@ -14,8 +14,8 @@ export class MobxListBinding extends ListBinding {
 
   constructor(
     private mobxModel: MobxModelType,
-    private path: string,
-    private context?: Context,
+    path: string,
+    context?: Context,
     sorters?: Sorter | Sorter[],
     filters?: Filter | Filter[],
     params?: object
@@ -31,6 +31,16 @@ export class MobxListBinding extends ListBinding {
         this.fireEvent("change", { reason: ChangeReason.Change });
       }
     );
+  }
+
+  private get path(): string {
+    // @ts-ignore
+    return this.sPath;
+  }
+
+  private get context(): Context | undefined {
+    // @ts-ignore
+    return this.oContext;
   }
 
   public destroy() {

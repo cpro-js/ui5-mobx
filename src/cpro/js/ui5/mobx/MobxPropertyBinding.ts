@@ -10,12 +10,22 @@ import PropertyBinding from "sap/ui/model/PropertyBinding";
 export class MobxPropertyBinding extends PropertyBinding {
   private disposer: () => void;
 
-  constructor(private mobxModel: MobxModelType, private path: string, private context?: Context, params?: object) {
+  constructor(private mobxModel: MobxModelType, path: string, context?: Context, params?: object) {
     super(mobxModel, path, context!, params);
 
     this.disposer = reaction(mobxModel.getProperty.bind(this, path, context), () => {
       this.fireEvent("change", { reason: ChangeReason.Change });
     });
+  }
+
+  private get path(): string {
+    // @ts-ignore
+    return this.sPath;
+  }
+
+  private get context(): Context | undefined {
+    // @ts-ignore
+    return this.oContext;
   }
 
   public destroy() {
