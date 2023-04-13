@@ -11,6 +11,14 @@ In contrast to other model implementations, the provided `MobxModel`
 focuses on state management and change propagation only. It intentionally doesn't
 handle webservice requests. Single responsibility!
 
+## Status Quo
+
+First versions. Pretty much alpha.
+
+Currently, the ContextBinding doesn't work.
+
+More tests are missing.
+
 ## The Gist
 
 1. Externalize your state as Mobx observable
@@ -53,10 +61,10 @@ The origins of this approach date back to early 2017 or, more specifically, this
 
 ## Installation
 
-Mobx itself is only a peer-dependency for `ui5-mobx`, so it must be installed by you:
+Mobx itself is only a peer-dependency for `ui5-mobx`, so it must be installed additionally:
 
 ```
-npm install --save mobx @cpro-js/ui5-mobx mobx
+npm install --save mobx mobx ui5-mobx
 ```
 
 ## Documentation
