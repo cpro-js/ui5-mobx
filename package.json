@@ -1,5 +1,5 @@
 {
-  "name": "ui5-mobx",
+  "name": "@cpro-js/ui5-mobx",
   "version": "0.0.0",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
   "author": "texttechne",
   "main": "dist/resources/index.js",
   "scripts": {
-    "build": "ui5 build --clean-dest && tsc --project tsconfig.build.json",
+    "build": "ui5 build --clean-dest",
     "check-circular-deps": "madge ./src --extensions ts --circular",
     "compile": "tsc",
     "prepare": "husky install",
