@@ -74,7 +74,7 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
     // retrieve the value by recursively traversing the path parts
     const parts = resolvedPath.substring(1).split("/");
     return parts.reduce((node: any, current: string) => {
-      return node[current];
+        return node && current ? node[current] : null;
     }, this.observable);
   }
 
