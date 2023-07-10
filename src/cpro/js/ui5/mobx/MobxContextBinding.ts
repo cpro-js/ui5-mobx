@@ -26,4 +26,19 @@ export class MobxContextBinding extends ContextBinding {
     // @ts-ignore
     return this.oContext;
   }
+
+  public initialize() {
+    //recreate Context: force update
+    this.oModel.createBindingContext(
+      this.path,
+      this.context,
+      this.mParameters,
+      (context: Context) => {
+        // @ts-ignore: not typed
+        this.oElementContext = context;
+        this._fireChange();
+      },
+      true
+    );
+  }
 }
