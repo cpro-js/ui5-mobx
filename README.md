@@ -26,6 +26,7 @@ More tests are missing.
 3. Only interact with externalized state from here on
 
 ```typescript
+import { MobxModel } from "ui5-mobx";
 import { makeAutoObservable } from "mobx";
 
 export default class MobxMainController extends BaseController {
@@ -49,7 +50,6 @@ export default class MobxMainController extends BaseController {
     // 4. manipulate state => it will result in a view change
     people.push({firstName: "Heinz", lastName: "Tester"});
   }
-
 
 }
 ```
