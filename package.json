@@ -6,7 +6,7 @@
   },
   "description": "Integration of mobx into UI5",
   "license": "MIT",
-  "repository": "git@github.com:texttechne/ui5-mobx.git",
+  "repository": "git@github.com:cpro-js/ui5-mobx.git",
   "author": "texttechne",
   "main": "dist/resources/index.js",
   "scripts": {

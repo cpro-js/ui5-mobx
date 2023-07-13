@@ -11,14 +11,6 @@ In contrast to other model implementations, the provided `MobxModel`
 focuses on state management and change propagation only. It intentionally doesn't
 handle webservice requests. Single responsibility!
 
-## Status Quo
-
-First versions. Pretty much alpha.
-
-Currently, the ContextBinding doesn't work.
-
-More tests are missing.
-
 ## The Gist
 
 1. Externalize your state as Mobx observable
@@ -64,7 +56,7 @@ The origins of this approach date back to early 2017 or, more specifically, this
 Mobx itself is only a peer-dependency for `ui5-mobx`, so it must be installed additionally:
 
 ```
-npm install --save mobx mobx ui5-mobx
+npm install --save mobx ui5-mobx
 ```
 
 ## Documentation
@@ -73,7 +65,8 @@ None yet.
 
 ## Examples
 
-None yet.
+See [odata2ts Playground](https://github.com/odata2ts/playground/tree/main/packages/ui5-mobx) for ui5-mobx in action
+and in combination with `odata2ts`.
 
 ## License
 
