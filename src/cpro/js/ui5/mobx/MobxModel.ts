@@ -53,7 +53,7 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
   }
 
   /**
-   * TODO: JSONModel provides for merge option. Needed?
+   * JSONModel also provides for merge option. However, we don't need that.
    *
    * @param observable
    */
