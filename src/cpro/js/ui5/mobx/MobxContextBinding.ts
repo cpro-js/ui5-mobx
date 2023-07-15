@@ -17,6 +17,11 @@ export class MobxContextBinding extends ContextBinding {
     });
   }
 
+  private get model(): MobxModelType {
+    // @ts-ignore
+    return this.oModel;
+  }
+
   private get path(): string {
     // @ts-ignore
     return this.sPath;
@@ -27,15 +32,21 @@ export class MobxContextBinding extends ContextBinding {
     return this.oContext;
   }
 
+  private get parameters(): object {
+    // @ts-ignore
+    return this.mParameters;
+  }
+
   public initialize() {
     //recreate Context: force update
-    this.oModel.createBindingContext(
+    this.model.createBindingContext(
       this.path,
       this.context,
-      this.mParameters,
+      this.parameters,
       (context: Context) => {
         // @ts-ignore: not typed
         this.oElementContext = context;
+        // @ts-ignore: not typed
         this._fireChange();
       },
       true
