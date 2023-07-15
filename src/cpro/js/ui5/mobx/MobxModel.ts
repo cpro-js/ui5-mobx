@@ -157,6 +157,9 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
     if (!path) {
       throw new Error(`Path is required! Provided value: ${path}`);
     }
+    if (!ctx) {
+      throw new Error(`Context is required! Provided value: ${ctx}`);
+    }
     return new MobxContextBinding(this, path, ctx, parameters, events);
   }
 

@@ -16,19 +16,21 @@ describe("MobxModel Tests: Context Binding", () => {
   beforeEach(() => {
     state = observable(createTestData());
     model = new MobxModel(state);
-    binding = model.bindContext("complex", new Context(model,""));
+    binding = model.bindContext("complex", new Context(model, ""));
     ctx = binding.getBoundContext()!;
   });
 
   it("createBindingContext", () => {
     expect(model.createBindingContext("")).toBeNull();
 
-    ctx = model.createBindingContext("", new Context(model, ""))!
+    ctx = model.createBindingContext("", new Context(model, ""))!;
     expect(ctx.getPath()).toBe("/");
     expect(ctx.getModel()).toBe(model);
-  })
+  });
 
   it("base tests", () => {
+    expect(binding.getPath()).toBe("complex");
+    expect(binding.getResolvedPath()).toBe("/complex");
     expect(binding.getModel()).toBe(model);
     expect(binding.getContext().getPath()).toEqual("");
     expect(ctx.getPath()).toEqual("/complex");
@@ -40,10 +42,29 @@ describe("MobxModel Tests: Context Binding", () => {
 
   it("fail without path", () => {
     expect(() => model.bindContext("", ctx)).toThrowError("Path is required! Provided value: ");
-    // @ts-expect-error: null is not allowed
+    // @ts-expect-error
     expect(() => model.bindContext(null, ctx)).toThrowError("Path is required! Provided value: null");
-    // @ts-expect-error: undefined is not allowed
+    // @ts-expect-error
     expect(() => model.bindContext(undefined, ctx)).toThrowError("Path is required! Provided value: undefined");
+  });
+
+  it("with wrong path", () => {
+    const nonPath = "xxx DoesntExist xxx";
+    const b = model.bindContext(nonPath, new Context(model, ""));
+
+    expect(b.getPath()).toBe(nonPath);
+    expect(b.getBoundContext()!.getProperty("xxx")).toBeNull();
+  });
+
+  it("fail without context", () => {
+    // @ts-expect-error
+    expect(() => model.bindContext("complex")).toThrowError("Context is required! Provided value: undefined");
+    // @ts-expect-error
+    expect(() => model.bindContext("complex", undefined)).toThrowError(
+      "Context is required! Provided value: undefined"
+    );
+    // @ts-expect-error
+    expect(() => model.bindContext("complex", null)).toThrowError("Context is required! Provided value: null");
   });
 
   it("works with propertyBinding", () => {
@@ -52,7 +73,7 @@ describe("MobxModel Tests: Context Binding", () => {
 
     // then we get a value
     expect(propBinding.getValue()).toBe(state.complex.a);
-  })
+  });
 
   it("works with listBinding", () => {
     // when using bound context with list binding
@@ -60,7 +81,7 @@ describe("MobxModel Tests: Context Binding", () => {
 
     // then we get a value
     expect(listBinding.getCount()).toBe(state.complex.list.length);
-  })
+  });
 
   it("changing state changes property binding", () => {
     // given a property binding
@@ -108,5 +129,4 @@ describe("MobxModel Tests: Context Binding", () => {
     // then state changed
     expect(state.complex.list).toEqual([]);
   });
-
 });
