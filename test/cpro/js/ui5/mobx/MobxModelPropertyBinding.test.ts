@@ -44,8 +44,6 @@ describe("MobxModel Tests: Property Binding", () => {
   });
 
   it("propertyBinding: changing binding changes state", () => {
-    const binding = model.bindProperty("/text");
-
     binding.setValue(NEW_VALUE);
 
     expect(state.text).toBe(NEW_VALUE);
