@@ -30,7 +30,7 @@ describe("MobxModel Tests", () => {
       truth: true,
       text: "ho",
       list: [],
-      complex: { a: "z", b: "y" },
+      complex: { a: "z", b: "y", list: [] },
       listOfComplex: [],
     };
     model.setData(observable(newData));

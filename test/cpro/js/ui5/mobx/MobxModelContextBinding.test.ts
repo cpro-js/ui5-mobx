@@ -16,33 +16,97 @@ describe("MobxModel Tests: Context Binding", () => {
   beforeEach(() => {
     state = observable(createTestData());
     model = new MobxModel(state);
-    ctx = new Context(model, "/complex");
-    binding = model.bindContext("a", ctx);
+    binding = model.bindContext("complex", new Context(model,""));
+    ctx = binding.getBoundContext()!;
   });
 
-  it("smoke test", () => {
+  it("createBindingContext", () => {
+    expect(model.createBindingContext("")).toBeNull();
+
+    ctx = model.createBindingContext("", new Context(model, ""))!
+    expect(ctx.getPath()).toBe("/");
+    expect(ctx.getModel()).toBe(model);
+  })
+
+  it("base tests", () => {
     expect(binding.getModel()).toBe(model);
-    expect(binding.getBoundContext()).not.toBeNull();
+    expect(binding.getContext().getPath()).toEqual("");
+    expect(ctx.getPath()).toEqual("/complex");
+    expect(ctx.getObject("")).toBe(state.complex);
+    expect(ctx.getObject("list")).toBe(state.complex.list);
+    expect(ctx.getProperty("list")).toBe(state.complex.list);
+    expect(ctx.getProperty("a")).toBe(state.complex.a);
   });
 
   it("fail without path", () => {
     expect(() => model.bindContext("", ctx)).toThrowError("Path is required! Provided value: ");
+    // @ts-expect-error: null is not allowed
+    expect(() => model.bindContext(null, ctx)).toThrowError("Path is required! Provided value: null");
+    // @ts-expect-error: undefined is not allowed
+    expect(() => model.bindContext(undefined, ctx)).toThrowError("Path is required! Provided value: undefined");
   });
 
-  it("changing state changes binding", () => {
+  it("works with propertyBinding", () => {
+    // when using bound context with property binding
+    const propBinding = model.bindProperty("a", ctx);
+
+    // then we get a value
+    expect(propBinding.getValue()).toBe(state.complex.a);
+  })
+
+  it("works with listBinding", () => {
+    // when using bound context with list binding
+    const listBinding = model.bindList("list", ctx);
+
+    // then we get a value
+    expect(listBinding.getCount()).toBe(state.complex.list.length);
+  })
+
+  it("changing state changes property binding", () => {
+    // given a property binding
+    const propBinding = model.bindProperty("a", ctx);
+
     // when changing the value
     state.complex.a = NEW_VALUE;
 
-    // then value of binding changed both in the context
-    // and the bound context (the value behind 'a')
-    expect(binding.getContext().getProperty("a")).toBe(NEW_VALUE);
-    expect(binding.getBoundContext()!.getProperty("")).toBe(NEW_VALUE);
+    // then value of prop binding changed
+    expect(propBinding.getValue()).toBe(NEW_VALUE);
+    // change also visible from context
+    expect(propBinding.getContext()!.getProperty("a")).toBe(NEW_VALUE);
+    expect(ctx.getProperty("a")).toBe(NEW_VALUE);
   });
 
-  // unsure if testing it the other way around would make sense
-  // it("contextBinding: changing binding changes state", () => {
-  //   // not resolved => returns proxy object, instead of direct value 'a'
-  //   (binding.getContext().getObject() as TestState["complex"]).a = NEW_VALUE;
-  //   expect(state.complex.a).toBe(NEW_VALUE);
-  // });
+  it("changing property binding changes state", () => {
+    // given a property binding
+    const propBinding = model.bindProperty("a", ctx);
+
+    // when changing the value
+    propBinding.setValue(NEW_VALUE);
+
+    // then state changed
+    expect(state.complex.a).toBe(NEW_VALUE);
+  });
+
+  it("changing state changes list binding", () => {
+    // given a list binding
+    const listBinding = model.bindList("list", ctx);
+
+    // when changing the value
+    state.complex.list[0].a = NEW_VALUE;
+
+    // then value changed
+    expect(listBinding.getData()[0].a).toBe(NEW_VALUE);
+  });
+
+  it("changing list binding changes state", () => {
+    // given a list binding
+    const listBinding = model.bindList("list", ctx);
+
+    // when changing the value
+    listBinding.setValue([]);
+
+    // then state changed
+    expect(state.complex.list).toEqual([]);
+  });
+
 });

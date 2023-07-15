@@ -7,6 +7,16 @@ const TEST_DATA = {
   complex: {
     a: "a",
     b: "b",
+    list: [
+      {
+        a: "a",
+        b: "b",
+      },
+      {
+        c: "c",
+        d: "d",
+      }
+    ]
   },
   listOfComplex: [
     {
