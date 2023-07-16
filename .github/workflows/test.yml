@@ -29,9 +29,9 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install packages
         run: yarn --immutable
-      - name: Build packages
-        run: yarn build
       - name: Type Tests
         run: yarn type-test
+      - name: Build packages
+        run: yarn build
       - name: Unit Tests
         run: yarn test
