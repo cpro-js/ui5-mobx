@@ -2,7 +2,6 @@ import { MobxContextBinding } from "cpro/js/ui5/mobx/MobxContextBinding";
 import { MobxListBinding } from "cpro/js/ui5/mobx/MobxListBinding";
 import { isObservable } from "mobx";
 import Context from "sap/ui/model/Context";
-import ContextBinding from "sap/ui/model/ContextBinding";
 import Filter from "sap/ui/model/Filter";
 import Model from "sap/ui/model/Model";
 import Sorter from "sap/ui/model/Sorter";
@@ -54,7 +53,7 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
   }
 
   /**
-   * TODO: JSONModel provides for merge option. Needed?
+   * JSONModel also provides for merge option. However, we don't need that.
    *
    * @param observable
    */
@@ -154,9 +153,12 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
    */
   public destroyBindingContext(ctx: Context) {}
 
-  public bindContext(path: string, ctx: Context, parameters?: object, events?: object): ContextBinding {
+  public bindContext(path: string, ctx: Context, parameters?: object, events?: object): MobxContextBinding {
     if (!path) {
       throw new Error(`Path is required! Provided value: ${path}`);
+    }
+    if (!ctx) {
+      throw new Error(`Context is required! Provided value: ${ctx}`);
     }
     return new MobxContextBinding(this, path, ctx, parameters, events);
   }

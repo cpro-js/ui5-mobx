@@ -27,13 +27,24 @@ describe("MobxModel Tests: List Binding", () => {
     binding = model.bindList("/listOfComplex");
   });
 
-  it("smoke test", () => {
-    expect(binding.getLength()).toBe(state.listOfComplex.length);
+  it("test basics", () => {
     expect(binding.getModel()).toBe(model);
+    expect(binding.getContext()).toBeUndefined();
+    expect(binding.getLength()).toBe(state.listOfComplex.length);
+    expect(binding.getCount()).toBe(state.listOfComplex.length);
+    expect(binding.getData()).toBe(state.listOfComplex);
+    expect(binding.getContexts().length).toBe(2);
+    expect(binding.getContexts()[0].toString()).toBe("/listOfComplex/0");
   });
 
   it("fail without path", () => {
     expect(() => model.bindList("")).toThrowError("Path is required! Provided value: ");
+    // @ts-expect-error
+    expect(() => model.bindList(null)).toThrowError("Path is required! Provided value: null");
+    // @ts-expect-error
+    expect(() => model.bindList(undefined)).toThrowError("Path is required! Provided value: undefined");
+    // @ts-expect-error
+    expect(() => model.bindList()).toThrowError("Path is required! Provided value: undefined");
   });
 
   it("changing state changes binding", () => {
@@ -64,9 +75,25 @@ describe("MobxModel Tests: List Binding", () => {
     expect(spy.called).toBeFalse();
   });
 
-  it("propertyBinding: changing binding changes state", () => {
+  it("changing binding changes state", () => {
     binding.setValue(NEW_VALUE);
 
     expect(state.listOfComplex).toEqual(NEW_VALUE);
   });
+
+  it("using property binding", () => {
+    const propBinding = model.bindProperty("a", binding.getContexts()[0])
+
+    expect(propBinding.getPath()).toBe("a")
+    expect(propBinding.getValue()).toBe("a")
+
+    // change via binding
+    propBinding.setValue("z")
+    expect(state.listOfComplex[0].a).toEqual("z");
+
+    // change via state
+    state.listOfComplex[0].a = "b";
+    expect(state.listOfComplex[0].a).toEqual("b");
+  });
+
 });

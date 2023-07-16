@@ -31,6 +31,7 @@ export default function (config: ConfigWithUi5) {
         "cpro/js/ui5/mobx/test/MobxModelBasics.test",
         "cpro/js/ui5/mobx/test/MobxModelPropertyBinding.test",
         "cpro/js/ui5/mobx/test/MobxModelListBinding.test",
+        "cpro/js/ui5/mobx/test/MobxModelContextBinding.test",
       ],
     },
     // logLevel: "debug",

@@ -2,7 +2,6 @@ import { MobxModel } from "cpro/js/ui5/mobx/MobxModel";
 import { observable } from "mobx";
 import ChangeReason from "sap/ui/model/ChangeReason";
 import PropertyBinding from "sap/ui/model/PropertyBinding";
-
 import { TestState, createTestData } from "./test-infra/TestHelper";
 
 describe("MobxModel Tests: Property Binding", () => {
@@ -18,12 +17,19 @@ describe("MobxModel Tests: Property Binding", () => {
     binding = model.bindProperty("/text");
   });
 
-  it("smoke test", () => {
+  it("simple successful path", () => {
+    expect(binding.getValue()).toBe("test");
     expect(binding.getValue()).toBe(state.text);
   });
 
   it("fail without path", () => {
     expect(() => model.bindProperty("")).toThrowError("Path is required! Provided value: ");
+    // @ts-expect-error
+    expect(() => model.bindProperty(null)).toThrowError("Path is required! Provided value: null");
+    // @ts-expect-error
+    expect(() => model.bindProperty(undefined)).toThrowError("Path is required! Provided value: undefined");
+    // @ts-expect-error
+    expect(() => model.bindProperty()).toThrowError("Path is required! Provided value: undefined");
   });
 
   it("changing state changes binding", () => {
@@ -44,8 +50,6 @@ describe("MobxModel Tests: Property Binding", () => {
   });
 
   it("propertyBinding: changing binding changes state", () => {
-    const binding = model.bindProperty("/text");
-
     binding.setValue(NEW_VALUE);
 
     expect(state.text).toBe(NEW_VALUE);
