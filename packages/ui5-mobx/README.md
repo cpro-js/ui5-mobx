@@ -46,11 +46,6 @@ export default class MobxMainController extends BaseController {
 }
 ```
 
-## Origins
-
-The origins of this approach date back to early 2017 or, more specifically, this Sap Blog article:
-[Reactive State Management in SAPUI5 via MobX](https://blogs.sap.com/2017/01/30/advanced-state-management-in-sapui5-via-mobx/).
-
 ## Installation
 
 Mobx itself is only a peer-dependency for `ui5-mobx`, so it must be installed additionally:
@@ -61,12 +56,25 @@ npm install --save mobx ui5-mobx
 
 ## Documentation
 
-None yet.
+You're reading it.
 
 ## Examples
 
 See [odata2ts Playground](https://github.com/odata2ts/playground/tree/main/packages/ui5-mobx) for ui5-mobx in action
 and in combination with `odata2ts`.
+
+## Origins
+
+The origins of this approach date back to early 2017 or, more specifically, this Sap Blog article:
+[Reactive State Management in SAPUI5 via MobX](https://blogs.sap.com/2017/01/30/advanced-state-management-in-sapui5-via-mobx/).
+
+## Support, Feedback, Contributing
+This project is open to feature requests, suggestions, bug reports, usage questions etc.
+via [GitHub issues](https://github.com/cpro-js/ui5-mobx/issues).
+
+Contributions and feedback are encouraged and always welcome.
+
+See the [contribution guidelines](https://github.com/cpro-js/ui5-mobx/blob/main/CONTRIBUTING.md) for further information.
 
 ## License
 
