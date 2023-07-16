@@ -6,7 +6,7 @@ import ContextBinding from "sap/ui/model/ContextBinding";
  * @namespace cpro.js.ui5.mobx
  */
 export class MobxContextBinding extends ContextBinding {
-  constructor(model: MobxModelType, path: string, ctx?: Context, parameters?: object, events?: object) {
+  constructor(model: MobxModelType, path: string, ctx?: Context | null, parameters?: object, events?: object) {
     super(model, path, ctx!, parameters, events);
 
     model.createBindingContext(this.path, this.context, parameters, (context: Context) => {

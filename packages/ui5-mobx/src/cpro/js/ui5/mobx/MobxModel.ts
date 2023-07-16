@@ -153,7 +153,7 @@ export class MobxModel<T extends object> extends Model implements MobxModelType<
    */
   public destroyBindingContext(ctx: Context) {}
 
-  public bindContext(path: string, ctx?: Context, parameters?: object, events?: object): MobxContextBinding {
+  public bindContext(path: string, ctx?: Context | null, parameters?: object, events?: object): MobxContextBinding {
     if (!path) {
       throw new Error(`Path is required! Provided value: ${path}`);
     }
