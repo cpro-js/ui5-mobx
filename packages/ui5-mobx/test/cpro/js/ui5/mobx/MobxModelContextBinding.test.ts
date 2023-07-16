@@ -56,15 +56,13 @@ describe("MobxModel Tests: Context Binding", () => {
     expect(b.getBoundContext()!.getProperty("xxx")).toBeNull();
   });
 
-  it("fail without context", () => {
-    // @ts-expect-error
-    expect(() => model.bindContext("complex")).toThrowError("Context is required! Provided value: undefined");
-    // @ts-expect-error
-    expect(() => model.bindContext("complex", undefined)).toThrowError(
-      "Context is required! Provided value: undefined"
-    );
-    // @ts-expect-error
-    expect(() => model.bindContext("complex", null)).toThrowError("Context is required! Provided value: null");
+  it("without context", () => {
+    const b = model.bindContext("complex");
+    expect(b.getPath()).toBe("complex");
+    expect(b.getBoundContext()).toBeNull();
+
+    expect(model.bindContext("complex", undefined).getBoundContext()).toBeNull();
+    expect(model.bindContext("complex", null).getBoundContext()).toBeNull();
   });
 
   it("works with propertyBinding", () => {

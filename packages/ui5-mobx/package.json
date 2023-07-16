@@ -11,7 +11,6 @@
   "main": "dist/resources/index.js",
   "scripts": {
     "build": "ui5 build --clean-dest",
-    "prepare": "husky install",
     "start": "ui5 serve",
     "type-test": "tsc",
     "test": "karma start --singleRun",
