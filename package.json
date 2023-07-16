@@ -1,77 +1,38 @@
 {
-  "name": "ui5-mobx",
-  "version": "0.2.1",
-  "publishConfig": {
-    "access": "public"
-  },
-  "description": "Integration of mobx into UI5",
+  "name": "@cpro-js/ui5-mobx-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root project for ui5-mobx",
   "license": "MIT",
   "repository": "git@github.com:cpro-js/ui5-mobx.git",
-  "author": "texttechne",
-  "main": "dist/resources/index.js",
+  "homepage": "https://github.com/cpro-js/ui5-mobx",
   "scripts": {
-    "build": "npm run compile && ui5 build --clean-dest",
-    "check-circular-deps": "madge ./src --extensions ts --circular",
-    "compile": "tsc",
-    "prepare": "husky install",
-    "release": "release-it",
-    "start": "ui5 serve",
-    "test": "karma start --singleRun",
-    "testing": "karma start"
-  },
-  "files": [
-    "*.md",
-    "dist",
-    "src",
-    "ui5.yaml",
-    "LICENSE"
-  ],
-  "keywords": [
-    "mobx",
-    "ui5",
-    "typescript",
-    "ts"
-  ],
-  "peerDependencies": {
-    "mobx": ">6.0.0"
+    "build": "yarn clean && lerna run build",
+    "clean": "rimraf coverage",
+    "postversion": "lerna publish from-git",
+    "release": "env-cmd -f .env.local --no-override lerna version",
+    "test": "lerna run --parallel test -- --no-cache",
+    "type-test": "lerna run --parallel type-test",
+    "version": "yarn install && git add yarn.lock"
   },
   "devDependencies": {
-    "@openui5/ts-types-esm": "1.111.0",
-    "@types/jasmine": "^4.3.1",
-    "@types/jest": "^29.4.0",
-    "@types/karma": "^6.3.3",
-    "@types/karma-jasmine": "^4.0.2",
-    "@types/node": "^18.14.6",
-    "@types/sinon": "^10.0.13",
-    "@ui5/cli": "^3.0.3",
+    "@lerna-lite/cli": "^2.5.0",
+    "@lerna-lite/publish": "^2.5.0",
+    "@lerna-lite/run": "^2.5.0",
+    "@lerna-lite/version": "^2.5.0",
+    "@prettier/plugin-xml": "^3.1.1",
+    "@types/node": "^20.4.2",
     "env-cmd": "^10.1.0",
     "husky": "^8.0.3",
     "import-sort-style-module": "^6.0.0",
-    "karma": "^6.4.1",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-cli": "^2.0.0",
-    "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^5.1.0",
-    "karma-sinon": "^1.0.5",
-    "karma-spec-reporter": "^0.0.36",
-    "karma-ui5": "^3.0.2",
-    "madge": "^6.0.0",
-    "mobx": "^6.8.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.4",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0",
     "prettier-plugin-import-sort": "^0.0.7",
-    "prettier-plugin-package": "^1.3.0",
+    "prettier-plugin-package": "^1.3.1",
     "prettier-plugin-properties": "^0.2.0",
-    "release-it": "^15.8.0",
-    "rimraf": "^4.3.0",
-    "sinon": "^15.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5",
-    "ui5-middleware-livereload": "^0.8.1",
-    "ui5-tooling-modules": "^0.7.10",
-    "ui5-tooling-transpile": "^0.3.7"
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
   },
-  "types": "./dist/resources/index.d.ts",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -83,5 +44,13 @@
       "parser": "typescript"
     }
   },
-  "readme": "README.md"
+  "lint-staged": {
+    "*.{xml,js,jsx,ts,tsx,json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ]
 }
