@@ -10,10 +10,10 @@
   "author": "texttechne",
   "main": "dist/resources/index.js",
   "scripts": {
-    "build": "yarn compile && ui5 build --clean-dest",
-    "compile": "tsc",
+    "build": "tsc && ui5 build --clean-dest",
     "prepare": "husky install",
     "start": "ui5 serve",
+    "type-test": "tsc",
     "test": "karma start --singleRun",
     "testing": "karma start"
   },
