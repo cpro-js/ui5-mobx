@@ -25,7 +25,7 @@ export class MobxListBinding extends ListBinding {
     this.disposer = reaction(
       () => {
         const observable = mobxModel.getProperty(path, context);
-        return observable.slice();
+        return Array.isArray(observable) ? observable.slice() : null;
       },
       () => {
         this.fireEvent("change", { reason: ChangeReason.Change });
