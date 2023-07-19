@@ -25,7 +25,7 @@ export class MobxListBinding extends ListBinding {
     this.disposer = reaction(
       () => {
         const observable = mobxModel.getProperty(path, context);
-        return observable.slice();
+        return Array.isArray(observable) ? observable.slice() : null;
       },
       () => {
         this.fireEvent("change", { reason: ChangeReason.Change });
@@ -48,12 +48,12 @@ export class MobxListBinding extends ListBinding {
     super.destroy();
   }
 
-  public getData(): Array<any> {
-    return this.mobxModel.getProperty(this.path, this.context) || [];
+  public getData(): Array<any> | null | undefined {
+    return this.mobxModel.getProperty(this.path, this.context);
   }
 
   public getLength(): number {
-    return this.getData().length;
+    return this.getData()?.length || 0;
   }
 
   public getContexts(startIndex: number = 0, size: number = 0): Context[] {

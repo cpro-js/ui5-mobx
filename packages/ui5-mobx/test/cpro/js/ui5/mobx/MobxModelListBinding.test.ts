@@ -47,6 +47,30 @@ describe("MobxModel Tests: List Binding", () => {
     expect(() => model.bindList()).toThrowError("Path is required! Provided value: undefined");
   });
 
+  it("can handle empty lists", () => {
+    binding = model.bindList("/emptyList");
+
+    expect(binding.getLength()).toBe(0);
+    expect(binding.getCount()).toBe(0);
+    expect(binding.getData()).toEqual([]);
+  })
+
+  it("can handle null references", () => {
+    binding = model.bindList("/nullProp");
+
+    expect(binding.getLength()).toBe(0);
+    expect(binding.getCount()).toBe(0);
+    expect(binding.getData()).toBeNull();
+  })
+
+  it("can handle undefined references", () => {
+    binding = model.bindList("/nonExistingXXX");
+
+    expect(binding.getLength()).toBe(0);
+    expect(binding.getCount()).toBe(0);
+    expect(binding.getData()).toBeUndefined();
+  })
+
   it("changing state changes binding", () => {
     // given: spy to check for change event
     // @ts-ignore: UMD import
@@ -70,7 +94,7 @@ describe("MobxModel Tests: List Binding", () => {
 
     state.listOfComplex[0].a = "z";
 
-    expect(binding.getData()[0].a).toEqual("z");
+    expect(binding.getData()![0].a).toEqual("z");
     // TODO: check if this is interesting at all
     expect(spy.called).toBeFalse();
   });

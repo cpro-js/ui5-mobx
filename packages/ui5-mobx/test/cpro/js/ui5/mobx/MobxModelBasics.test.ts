@@ -30,6 +30,8 @@ describe("MobxModel Tests", () => {
       truth: true,
       text: "ho",
       list: [],
+      emptyList: [],
+      nullProp: null,
       complex: { a: "z", b: "y", list: [] },
       listOfComplex: [],
     };
