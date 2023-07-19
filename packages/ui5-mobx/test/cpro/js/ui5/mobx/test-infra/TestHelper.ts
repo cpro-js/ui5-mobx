@@ -4,6 +4,8 @@ const TEST_DATA = {
   truth: false,
   text: "test",
   list: [1, 2, 3],
+  emptyList: [],
+  nullProp: null,
   complex: {
     a: "a",
     b: "b",

@@ -32,6 +32,16 @@ describe("MobxModel Tests: Property Binding", () => {
     expect(() => model.bindProperty()).toThrowError("Path is required! Provided value: undefined");
   });
 
+  it("can handle null values", () => {
+    binding = model.bindProperty("/nullProp")
+    expect(binding.getValue()).toBeNull();
+  });
+
+  it("can handle non existing values", () => {
+    binding = model.bindProperty("/doesNotExist")
+    expect(binding.getValue()).toBeUndefined();
+  });
+
   it("changing state changes binding", () => {
     // given: spy to check for change event
     // @ts-ignore: UMD import
