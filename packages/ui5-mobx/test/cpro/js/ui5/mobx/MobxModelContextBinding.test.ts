@@ -114,7 +114,7 @@ describe("MobxModel Tests: Context Binding", () => {
     state.complex.list[0].a = NEW_VALUE;
 
     // then value changed
-    expect(listBinding.getData()[0].a).toBe(NEW_VALUE);
+    expect(listBinding.getData()![0].a).toBe(NEW_VALUE);
   });
 
   it("changing list binding changes state", () => {

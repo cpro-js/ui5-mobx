@@ -94,7 +94,7 @@ describe("MobxModel Tests: List Binding", () => {
 
     state.listOfComplex[0].a = "z";
 
-    expect(binding.getData()[0].a).toEqual("z");
+    expect(binding.getData()![0].a).toEqual("z");
     // TODO: check if this is interesting at all
     expect(spy.called).toBeFalse();
   });
